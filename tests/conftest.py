@@ -22,24 +22,20 @@ def request_browser(request_params, request):
     '''2nd fixture handling the browser choose'''
     if request_params['browser'] == 'IE':
         options = webdriver.IeOptions()
-        options.headless = True
-        options.add_argument('start-maximized')
         webdr = webdriver.Ie(options=options,
                              executable_path='d:\\PycharmProjects\\HW-lesson_selenium\\drivers\\IEDriverServer.exe')
-        request.addfinalizer(webdr.quit)
-        return webdr
+        webdr.maximize_window()
     elif request_params['browser'] == 'Firefox':
         options = webdriver.FirefoxOptions()
         options.headless = True
-        options.add_argument('--start-maximized')
         webdr = webdriver.Firefox(options=options,
                                   executable_path='d:\\PycharmProjects\\HW-lesson_selenium\\drivers\\geckodriver.exe')
-        request.addfinalizer(webdr.quit)
-        return webdr
+        webdr.maximize_window()
     else:
         options = webdriver.ChromeOptions()
         options.add_argument('headless')
-        options.add_argument('--start-fullscreen')
+        options.add_argument('--start-maximized')
         webdr = webdriver.Chrome(options=options,
                                  executable_path='d:\\PycharmProjects\\HW-lesson_selenium\\drivers\\chromedriver.exe')
-        return webdr
+    request.addfinalizer(webdr.quit)
+    return webdr
